@@ -5,16 +5,21 @@ it run `/inbox-sweep`.
 
 ## How it is created
 
-`/inbox-onboard` offers to create it at the end of setup. To create it by hand, use the
-`create_trigger` tool:
+**The owner creates it, in the Routines UI on claude.ai.** Not Claude — see "The owner
+must create the Routine, not Claude" below, which is the whole reason this page exists.
 
 ```
-name:  Weekly inbox sweep
-cron:  0 15 * * 1
-create_new_session_on_fire: true
-initiation: human_request
-notifications: { push: true }
+name:           Weekly inbox sweep
+schedule:       0 15 * * 1        (Mondays 8am US Pacific — cron is UTC, see below)
+prompt:         paste routine-prompt.txt
+connector:      Gmail
+allowed tools:  mcp__Gmail__search_threads
+                mcp__Gmail__unlabel_thread
+                mcp__Gmail__send_message
 ```
+
+`/inbox-onboard` walks through this and generates the prompt, but hands the last step to
+the owner.
 
 ## Cron is UTC
 
@@ -42,7 +47,7 @@ The fired session has **no repo checkout and no push access**, so it cannot read
 `config/rules.json`. The config is compiled into the prompt instead:
 
 ```
-config/rules.json  --scripts/compile-routine-prompt.py-->  prompt  --update_trigger-->  live
+config/rules.json  --compile-routine-prompt.py-->  routine-prompt.txt  --owner pastes-->  live
 ```
 
 Run `/inbox-sync` after every config change. Never hand-edit the Routine prompt — the repo
@@ -68,6 +73,38 @@ record. The only real loss is the `pending_review` sightings counter, which rese
 
 Dropping git removed a whole class of failure — a wrong clone URL, a missing checkout, a
 403 — in exchange for one compile step the owner runs when they edit the config.
+
+## The owner must create the Routine, not Claude
+
+**This is the single most important thing on this page.**
+
+A Routine created by Claude runs in **Auto mode**, where every connector call is checked by
+a classifier. In practice that means a permission prompt for every Gmail call — dozens per
+run — which makes an unattended Routine useless. The claude.ai UI states it plainly on any
+such Routine:
+
+> Claude created this routine, so it runs in Auto mode — connector calls are checked by a
+> classifier
+
+A Routine the **owner** creates does not run in Auto mode and can carry explicit tool
+grants, so it runs silently. Nothing about the prompt, the connector or the schedule
+changes this — only who created it.
+
+So the setup is: Claude compiles the prompt, the owner creates the Routine and pastes it.
+
+    Routine created by:  Claude  ->  Auto mode  ->  classifier  ->  a prompt per call
+    Routine created by:  owner   ->  normal     ->  tool grants ->  silent
+
+Allowed tools to grant when creating it:
+
+    mcp__Gmail__search_threads
+    mcp__Gmail__unlabel_thread
+    mcp__Gmail__send_message
+
+That is the complete set — scan, archive, send digest — which also keeps the grant tight.
+
+A consequence worth stating: because the Routine belongs to the owner, Claude cannot update
+its prompt. `/inbox-sync` regenerates `routine-prompt.txt` and the owner re-pastes it.
 
 ## The Gmail connector has to be attached in the UI
 
@@ -110,9 +147,12 @@ already ran is worse.
 
 ## Managing it
 
-- `list_triggers` — find the trigger ID
-- `update_trigger` — change cadence, prompt, or pause it with `enabled: false`
-- `delete_trigger` — remove it permanently (loses run history; prefer disabling)
+- `list_triggers` — inspect it, including whether it is enabled and what tools it grants
+- The owner edits schedule, prompt and tool grants in the Routines UI
+- Pause it there, or with `update_trigger(enabled: false)`
+
+Claude cannot change the prompt of a Routine the owner created — regenerate
+`routine-prompt.txt` with `/inbox-sync` and have them paste it.
 
 Pausing is the right move if you are travelling or want to stop the sweep temporarily.
 The config and ledger are untouched, so re-enabling picks up where it left off.

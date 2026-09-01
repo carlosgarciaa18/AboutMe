@@ -27,11 +27,25 @@ The Routine does **not** read `config/rules.json` at run time — it runs from a
 compiled out of it.
 
 ```
-edit config/rules.json  →  /inbox-sync  →  Routine updated
+edit config/rules.json  →  /inbox-sync  →  paste routine-prompt.txt into the Routine
 ```
 
-Skip the sync and the Routine keeps using the old sender list, including archiving a
-sender you just protected. **Every config edit ends with `/inbox-sync`.**
+Skip that and the Routine keeps using the old sender list, including archiving a sender
+you just protected. **Every config edit ends with a paste.**
+
+## Create the Routine yourself
+
+Do not let Claude create it. A Claude-created Routine runs in **Auto mode**, where a
+classifier checks every connector call — a permission prompt per Gmail call, dozens per
+run. One you create yourself runs silently.
+
+When you create it, grant exactly:
+
+```
+mcp__Gmail__search_threads
+mcp__Gmail__unlabel_thread
+mcp__Gmail__send_message
+```
 
 ## Sender buckets
 

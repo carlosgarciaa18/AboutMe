@@ -1,6 +1,6 @@
 ---
 name: inbox-onboard
-description: First-run setup for the Gmail advertising sweep. Checks prerequisites, surveys the user's mailbox, walks them through classifying their own top senders, writes config/rules.json, runs a dry sweep, and offers to create the scheduled Routine. Use when someone is installing or setting up this system for the first time, or asks to reconfigure it.
+description: First-run setup for the Gmail advertising sweep. Checks prerequisites, surveys the user's mailbox, walks them through classifying their own top senders, writes config/rules.json, runs a dry sweep, and walks the owner through creating the scheduled Routine themselves. Use when someone is installing or setting up this system for the first time, or asks to reconfigure it.
 ---
 
 # Onboarding
@@ -122,40 +122,45 @@ expensive later.
 Walk them through the output and fix anything wrong. Then ask whether to flip
 `dry_run` to false.
 
-## Step 7 — Offer the Routine
+## Step 7 — Have THEM create the Routine
 
-Ask for a cadence, and default to **weekly, Monday morning**. Daily is rarely worth it;
-these senders arrive steadily and a weekly batch reads better as a report.
+**Do not create it yourself.** A Routine created by Claude runs in Auto mode, where a
+classifier checks every connector call — a permission prompt per Gmail call, dozens per
+run, which makes the whole thing useless unattended. The claude.ai UI says so on any such
+Routine: "Claude created this routine, so it runs in Auto mode — connector calls are
+checked by a classifier."
 
-Convert their local time to UTC before writing the cron — `create_trigger` evaluates cron
-in UTC, and if the conversion crosses midnight the day-of-week field shifts too. For
-8am Monday US Pacific (UTC-7) that is `0 15 * * 1`.
+A Routine the owner creates runs silently. Only the creator matters; the prompt, connector
+and schedule make no difference.
 
-Create it with `create_trigger`:
+So: generate the prompt, then walk them through creating it.
 
-- `create_new_session_on_fire: true` — each run starts clean
-- `initiation: "human_request"`
-- `notifications: { "push": true }`
-- prompt: standalone, since a fresh session has no context. See `docs/ROUTINE.md`.
+1. Run `/inbox-sync` to produce `routine-prompt.txt`, and send it with `SendUserFile`.
+2. Ask for a cadence, and default to **weekly, Monday morning**. Daily is rarely worth it;
+   these senders arrive steadily and a weekly batch reads better as a report.
+3. Give them the cron in **UTC** — `create_trigger` and the UI both evaluate it in UTC, and
+   if the conversion crosses midnight the day-of-week field shifts too. 8am Monday US
+   Pacific (UTC-7) is `0 15 * * 1`. See `docs/ROUTINE.md` for a conversion table.
+4. Tell them to attach the **Gmail** connector and grant exactly these tools:
 
-**Then check the connector warning.** `create_trigger` may return a Routine that stores no
-connectors, with a warning rather than an error — or reject the `connectors` parameter
-outright depending on the organisation. A Routine in that state fires on schedule, has no
-Gmail tools, and fails.
+   ```
+   mcp__Gmail__search_threads
+   mcp__Gmail__unlabel_thread
+   mcp__Gmail__send_message
+   ```
 
-If that happens, **disable the Routine immediately** with
-`update_trigger(enabled: false)` and tell them plainly: the Routine exists but is paused,
-and they need to attach the Gmail connector in the Routines UI on claude.ai and enable it
-there. Do not leave a broken Routine armed — a weekly failing push notification is worse
-than no Routine.
+   That is the complete set — scan, archive, send digest — and keeps the grant tight.
 
-Confirm what you created, whether it is enabled, and how to pause or delete it.
+5. Confirm they have pasted the prompt and enabled it. Until then nothing is scheduled.
 
 ## Step 8 — Hand off
 
-Close with the four things they need to know:
+Close with the five things they need to know:
 
 1. Their config lives in `config/rules.json` and can be edited by hand.
-2. Reports land in `reports/`.
-3. `/inbox-sweep` runs a pass on demand.
-4. `/inbox-unsubscribe` handles unsubscribes, and always asks first.
+2. **Every config edit ends with `/inbox-sync` and a paste** into the Routine, or it keeps
+   running the old roster.
+3. The weekly digest email is the record of each run. `reports/` only fills in from
+   interactive runs.
+4. `/inbox-sweep` runs a pass on demand.
+5. `/inbox-unsubscribe` handles unsubscribes, and always asks first.
