@@ -7,6 +7,8 @@ you have approved, surfaces new ones for a decision, and **emails you a round-up
 it did**. It archives — it never deletes. It unsubscribes only from senders you have
 named, one by one.
 
+**New here? Start with [USAGE.md](USAGE.md)** — the one-page cheat sheet.
+
 ## Install
 
 You need a Gmail connector enabled in your Claude session.
