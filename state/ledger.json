@@ -1,0 +1,5 @@
+{
+  "$comment": "Append-only run history. The sweep adds one record per run. This is the system's durable memory across ephemeral sessions.",
+  "version": 1,
+  "runs": []
+}

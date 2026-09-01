@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Gmail__search_threads",
+      "mcp__Gmail__get_message",
+      "mcp__Gmail__get_thread",
+      "mcp__Gmail__list_labels",
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "ask": [
+      "mcp__Gmail__unlabel_thread",
+      "mcp__Gmail__unlabel_message",
+      "mcp__Gmail__update_message_labels",
+      "mcp__Gmail__send_message"
+    ],
+    "deny": [
+      "mcp__Gmail__trash_message",
+      "mcp__Gmail__trash_thread",
+      "mcp__Gmail__mark_message_spam",
+      "mcp__Gmail__mark_thread_spam",
+      "mcp__Gmail__forward"
+    ]
+  }
+}

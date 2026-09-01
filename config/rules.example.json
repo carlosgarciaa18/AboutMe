@@ -1,0 +1,49 @@
+{
+  "$comment": "Template for a new install. Copy to config/rules.json — /inbox-onboard does this for you and fills in the sender lists from a real scan of your mailbox. Nothing here is acted on until a human has reviewed it.",
+  "version": 1,
+
+  "owner": "you@example.com",
+  "timezone": "America/Los_Angeles",
+
+  "settings": {
+    "scan_window_days": 7,
+    "categories": ["promotions", "updates"],
+    "dry_run": true,
+    "max_archive_per_run": 400,
+    "promote_after_sightings": 3,
+    "report_to": "terminal"
+  },
+
+  "senders": {
+    "archive": [
+      {
+        "address": "news@e.examplestore.com",
+        "name": "Example Store",
+        "added": "2026-01-01",
+        "note": "Daily sale blasts, never opened."
+      }
+    ],
+
+    "unsubscribe_approved": [],
+
+    "unsubscribed": [],
+
+    "protected": [
+      {
+        "address": "receipts@examplestore.com",
+        "name": "Example Store receipts",
+        "note": "Transactional. Lands in Promotions but must stay."
+      }
+    ],
+
+    "keep_in_inbox": [
+      {
+        "address": "events@examplevenue.com",
+        "name": "Example Venue",
+        "note": "Marketing, but I want to see these."
+      }
+    ],
+
+    "pending_review": []
+  }
+}

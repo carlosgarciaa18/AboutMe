@@ -1,0 +1,70 @@
+{
+  "$comment": "Ships with the system. Applies to EVERY install, before any user config is read. The sweep must treat these as hard stops that user rules cannot override. Edit only to add protection, never to remove it.",
+  "version": 1,
+
+  "never_archive_labels": ["STARRED", "IMPORTANT_AND_UNREAD_REPLY"],
+
+  "never_archive_categories_note": "Only promotions, updates and forums are ever in scope. category:primary and category:social are never swept.",
+
+  "$subject_pattern_note": "Case-insensitive substring match against the subject. These are deliberately HIGH-PRECISION multi-word phrases. Single words like 'order', 'cancel', 'expires', 'claim', 'delivery', 'refund' and 'final notice' were tried and removed: they appear constantly in ordinary marketing subject lines ('Sale expires tonight', 'Claim your reward', 'Free delivery'), so they held back most legitimate advertising and buried the real signals in the run report. Sender classification is the primary control; this list is the backstop for a sender that changes character. Prefer adding a sender to `protected` over broadening this list.",
+
+  "protected_subject_patterns": [
+    "your receipt", "receipt for", "receipt from", "invoice",
+    "statement is ready", "statement is available", "billing statement",
+    "past due", "overdue", "payment failed", "payment declined", "payment received",
+    "payment is scheduled", "autopay", "chargeback",
+    "has shipped", "out for delivery", "tracking number", "arriving today",
+    "verification code", "security code", "one-time passcode", "one-time password",
+    "two-factor", "password reset", "reset your password", "change your password",
+    "security alert", "new sign-in", "new device", "unusual activity",
+    "suspicious activity", "unauthorized", "account locked", "account suspended",
+    "appointment", "prescription", "refill", "lab result", "test result",
+    "explanation of benefits", "your claim", "claim number",
+    "w-2", "1099", "tax document", "tax statement", "jury duty", "subpoena", "summons",
+    "offer letter", "interview", "application received", "background check",
+    "terms of service", "terms of use", "services agreement", "privacy policy"
+  ],
+
+  "protected_sender_patterns": [
+    "*@*.gov",
+    "*@*.bank",
+    "*bank*@*",
+    "*@*chase.com",
+    "*@*schwab.com",
+    "*@*fidelity.com",
+    "*@*vanguard.com",
+    "*@*capitalone.com",
+    "*@*amex.com",
+    "*@*wellsfargo.com",
+    "*@*paypal.com",
+    "*@*venmo.com",
+    "*@*irs.gov",
+    "*@*ssa.gov",
+    "*@accounts.google.com",
+    "*@*.myworkday.com",
+    "*@*greenhouse.io",
+    "*@*lever.co",
+    "*@*ashbyhq.com",
+    "*@*icims.com",
+    "*@*taleo.net",
+    "*@*okta.com",
+    "*@*duosecurity.com",
+    "security@*",
+    "security-noreply@*",
+    "no-reply@accounts.*",
+    "*@*cigna.com",
+    "*@*kaiserpermanente.org",
+    "*@*mychart*"
+  ],
+
+  "hard_stops": [
+    "Never archive or unsubscribe anything outside category:promotions, category:updates or category:forums.",
+    "Never touch a thread containing a STARRED message.",
+    "Never touch a thread the account owner has replied to (a thread with any message in SENT).",
+    "Never touch a thread whose sender matches protected_sender_patterns.",
+    "Never touch a message whose subject matches protected_subject_patterns.",
+    "Never unsubscribe without an explicit, per-sender human approval recorded in config/rules.json.",
+    "Never delete or trash anything. Archiving (removing the INBOX label) is the only removal action permitted.",
+    "Never mark anything as spam."
+  ]
+}

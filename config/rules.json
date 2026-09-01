@@ -1,0 +1,119 @@
+{
+  "$comment": "Generated from the 90-day inbox survey on 2026-09-01. dry_run is ON: the sweep will report what it WOULD archive and change nothing. Flip settings.dry_run to false when the archive list below looks right. unsubscribe_approved is deliberately empty — unsubscribing is one-way and needs explicit per-sender sign-off.",
+  "version": 1,
+
+  "owner": "carlosgarciaa97@gmail.com",
+  "timezone": "America/Los_Angeles",
+
+  "settings": {
+    "scan_window_days": 7,
+    "categories": ["promotions", "updates"],
+    "dry_run": true,
+    "max_archive_per_run": 400,
+    "promote_after_sightings": 3,
+    "report_to": "terminal"
+  },
+
+  "senders": {
+    "archive": [
+      { "address": "info@mail.levi.com", "name": "Levi's", "seen_90d": 71, "added": "2026-09-01" },
+      { "address": "news@e.sunglasshut.com", "name": "Sunglass Hut", "seen_90d": 52, "added": "2026-09-01" },
+      { "address": "hello@em.cava.com", "name": "CAVA", "seen_90d": 45, "added": "2026-09-01" },
+      { "address": "marketing@angelikafilmcenter.com", "name": "Angelika Film Center", "seen_90d": 43, "added": "2026-09-01" },
+      { "address": "hello@mail.quince.com", "name": "Quince", "seen_90d": 42, "added": "2026-09-01" },
+      { "address": "circulation@email.langnews.com", "name": "San Diego Union-Tribune", "seen_90d": 41, "added": "2026-09-01" },
+      { "address": "hgv@travel.hiltongrandvacations.com", "name": "Hilton Grand Vacations", "seen_90d": 35, "note": "Shares a count with travel2 subdomain.", "added": "2026-09-01" },
+      { "address": "hgv@travel2.hiltongrandvacations.com", "name": "Hilton Grand Vacations", "added": "2026-09-01" },
+      { "address": "store-news@amazon.com", "name": "Amazon store news", "seen_90d": 31, "note": "Marketing only. account-update@ and auto-confirm@ are protected.", "added": "2026-09-01" },
+      { "address": "mail@eg.vrbo.com", "name": "Vrbo", "seen_90d": 25, "added": "2026-09-01" },
+      { "address": "noreply@engage.covetruspharmacy.com", "name": "Covetrus Pharmacy", "seen_90d": 24, "added": "2026-09-01" },
+      { "address": "logitech@messaging.logitech.com", "name": "Logitech", "seen_90d": 24, "added": "2026-09-01" },
+      { "address": "marketing@engage.canva.com", "name": "Canva", "seen_90d": 14, "added": "2026-09-01" },
+      { "address": "worldmarket@emailworldmarket.com", "name": "World Market", "seen_90d": 13, "note": "Starred mail is protected by hard stop regardless.", "added": "2026-09-01" },
+      { "address": "armstrong@send.armstronggarden.com", "name": "Armstrong Garden", "added": "2026-09-01" },
+      { "address": "philzcoffee@hello.philzcoffee.com", "name": "Philz Coffee", "added": "2026-09-01" },
+      { "address": "email@e.krogermail.com", "name": "Kroger", "added": "2026-09-01" },
+      { "address": "hello@attn.us.lg.com", "name": "LG", "added": "2026-09-01" },
+      { "address": "sales@elecrow.com", "name": "Elecrow", "added": "2026-09-01" },
+      { "address": "volkswagen@em.vw.com", "name": "Volkswagen", "added": "2026-09-01" },
+      { "address": "ATT@message.att-mail.com", "name": "AT&T marketing", "note": "Marketing only. orders@account.att-mail.com is protected.", "added": "2026-09-01" },
+      { "address": "RanchoBernardoInn@jcresorts.com", "name": "Rancho Bernardo Inn", "added": "2026-09-01" },
+      { "address": "Snapdragonstadium@engage.ticketmaster.com", "name": "Snapdragon Stadium", "added": "2026-09-01" },
+      { "address": "no-reply@spotify.com", "name": "Spotify concert recs", "added": "2026-09-01" },
+      { "address": "info@sandiegofc.com", "name": "San Diego FC", "added": "2026-09-01" },
+      { "address": "info@audiotent.com", "name": "Audiotent", "added": "2026-09-01" },
+      { "address": "email@sonarworks.com", "name": "Sonarworks", "added": "2026-09-01" },
+      { "address": "no-reply@aiaiai.audio", "name": "AIAIAI", "added": "2026-09-01" },
+      { "address": "support@djtechtools.com", "name": "DJ TechTools", "added": "2026-09-01" },
+      { "address": "info@skiomusic.com", "name": "Skio Music", "added": "2026-09-01" },
+      { "address": "support@codepen.io", "name": "CodePen", "added": "2026-09-01" },
+      { "address": "announcements@bartendermac.com", "name": "Bartender", "added": "2026-09-01" },
+      { "address": "welcome@hello.fable.co", "name": "Fable", "added": "2026-09-01" },
+      { "address": "st@event.st.com", "name": "STMicroelectronics", "added": "2026-09-01" },
+      { "address": "noa@doctoralia.com.mx", "name": "Doctoralia", "added": "2026-09-01" },
+      { "address": "info@recoveryone.com", "name": "RecoveryOne", "added": "2026-09-01" },
+      { "address": "newsletter@hackaday.com", "name": "Hackaday", "added": "2026-09-01" },
+      { "address": "talentattraction@edwards.com", "name": "Edwards Lifesciences recruiting", "added": "2026-09-01" },
+      { "address": "ucberkeleyonlineadmissions@sfmc2.edx.org", "name": "UC Berkeley online admissions (edX)", "note": "Automated. The human rep slee2@ is protected.", "added": "2026-09-01" },
+      { "address": "msai@info.cdso.utexas.edu", "name": "UT Austin MSAI", "added": "2026-09-01" },
+      { "address": "info@info.cdso.utexas.edu", "name": "UT Austin CDSO", "added": "2026-09-01" },
+      { "address": "scm_mm@mit.edu", "name": "MIT SCM newsletter", "added": "2026-09-01" },
+      { "address": "applefitnessplus@insideapple.apple.com", "name": "Apple Fitness+ marketing", "added": "2026-09-01" }
+    ],
+
+    "unsubscribe_approved": [],
+
+    "unsubscribed": [],
+
+    "protected": [
+      { "address": "slee2@datascience.berkeley.edu", "name": "UC Berkeley MIDS — named human", "note": "Real person, awaiting a reply. Never touch." },
+      { "address": "nordstromrack@eml.nordstromrack.com", "name": "Nordstrom Rack", "note": "Sends in-store RECEIPTS via a marketing subdomain." },
+      { "address": "orders@account.att-mail.com", "name": "AT&T orders", "note": "Order confirmations and cancellations." },
+      { "address": "account-update@amazon.com", "name": "Amazon account", "note": "Sign-in and account notices." },
+      { "address": "msa@communication.microsoft.com", "name": "Microsoft Services Agreement", "note": "Legal terms changes." },
+      { "address": "illumina@myworkday.com", "name": "Illumina — job application" },
+      { "address": "IlluminaSurveys@illumina.com", "name": "Illumina — candidate survey" },
+      { "address": "no_reply@email.apple.com", "name": "Apple subscriptions" },
+      { "address": "noreply@email.apple.com", "name": "Apple Account security" },
+      { "address": "donotreply@mail.schwab.com", "name": "Charles Schwab" },
+      { "address": "donotreply@email.schwab.com", "name": "Charles Schwab" },
+      { "address": "schwabbank.debitcard@service.card.visa.com", "name": "Schwab debit card" },
+      { "address": "no.reply.alerts@chase.com", "name": "Chase alerts" },
+      { "address": "noreply@robinhood.com", "name": "Robinhood" },
+      { "address": "support@s.usa.experian.com", "name": "Experian" },
+      { "address": "donotreply@document.cigna.com", "name": "Cigna documents" },
+      { "address": "no-reply@memo-app.cigna.com", "name": "Cigna" },
+      { "address": "no-reply@mail.aperohealth.com", "name": "Apero Health" },
+      { "address": "noreply@okta.com", "name": "Okta — work SSO" },
+      { "address": "invoice+statements@mail.anthropic.com", "name": "Anthropic invoices" },
+      { "address": "hello@email.rocketmoney.com", "name": "Rocket Money", "note": "Bill and transaction alerts, not ads." },
+      { "address": "do-not-reply@audible.com", "name": "Audible membership" },
+      { "address": "noreply@uber.com", "name": "Uber", "note": "Trip receipts mixed with promos." },
+      { "address": "no-reply@doordash.com", "name": "DoorDash", "note": "Order receipts mixed with promos." }
+    ],
+
+    "keep_in_inbox": [
+      { "address": "crssd@crssd.com", "name": "CRSSD", "seen_90d": 23, "note": "Marketing, but events you actually attend. Left in the inbox pending your call." },
+      { "address": "no-reply@asana.com", "name": "Asana", "note": "Your own task reminders." },
+      { "address": "noreply@bandcamp.com", "name": "Bandcamp", "note": "Artist releases you follow. Note: no List-Unsubscribe header — unsubscribe is per-artist, in-body only." }
+    ],
+
+    "pending_review": [
+      { "address": "insights@marketing.alpha-futures.com", "name": "Alpha Futures", "seen_90d": 38, "question": "Trading education marketing. Any live account with them?" },
+      { "address": "support@mail6.lendingclub.com", "name": "LendingClub", "seen_90d": 26, "question": "Loan solicitations. Confirm no open application before unsubscribing." },
+      { "address": "Noreply@bitunix.com", "name": "Bitunix", "seen_90d": 21, "question": "Crypto exchange marketing. Any funded account?" },
+      { "address": "donotreply@23andme.com", "name": "23andMe", "question": "MIXED stream: research/report notices AND upgrade ads. Unsubscribing kills both." },
+      { "address": "biolife.donor.response@email-biolifeplasma.com", "name": "BioLife Plasma", "question": "Ad, but tied to a donation program you may be enrolled in." },
+      { "address": "hello@capitaloneshopping.com", "name": "Capital One Shopping", "question": "Ad, but linked to a Capital One account." },
+      { "address": "hello@mail.wispr.ai", "name": "Wispr Flow", "question": "Product emails for a tool you use." },
+      { "address": "seanfletchr@creators.gumroad.com", "name": "Gumroad creator", "question": "Creator you bought from — release notes." },
+      { "address": "jobalerts-noreply@linkedin.com", "name": "LinkedIn job alerts", "seen_30d": "50+", "question": "Fires every 2 hours. Recommend throttling frequency in LinkedIn settings rather than unsubscribing." },
+      { "address": "jobs-noreply@linkedin.com", "name": "LinkedIn jobs", "question": "Same as above." },
+      { "address": "editors-noreply@linkedin.com", "name": "LinkedIn News", "question": "Editorial newsletter." },
+      { "address": "donotreply@match.indeed.com", "name": "Indeed job matches", "seen_30d": 63, "question": "Throttle in Indeed settings rather than unsubscribe?" },
+      { "address": "support@builtin.com", "name": "Built In job matches", "question": "" },
+      { "address": "westpharma-jobnotification@noreply12.jobs2web.com", "name": "West Pharma talent community", "question": "" },
+      { "address": "design-west-technologies-inc-1-47520@alert.refer.io", "name": "Refer.io alert", "question": "" }
+    ]
+  }
+}
