@@ -107,21 +107,25 @@
     ],
 
     "pending_review": [
-      { "address": "insights@marketing.alpha-futures.com", "name": "Alpha Futures", "seen_90d": 38, "question": "Trading education marketing. Any live account with them?" },
-      { "address": "support@mail6.lendingclub.com", "name": "LendingClub", "seen_90d": 26, "question": "Loan solicitations. Confirm no open application before unsubscribing." },
-      { "address": "Noreply@bitunix.com", "name": "Bitunix", "seen_90d": 21, "question": "Crypto exchange marketing. Any funded account?" },
-      { "address": "donotreply@23andme.com", "name": "23andMe", "question": "MIXED stream: research/report notices AND upgrade ads. Unsubscribing kills both." },
-      { "address": "biolife.donor.response@email-biolifeplasma.com", "name": "BioLife Plasma", "question": "Ad, but tied to a donation program you may be enrolled in." },
-      { "address": "hello@capitaloneshopping.com", "name": "Capital One Shopping", "question": "Ad, but linked to a Capital One account." },
-      { "address": "hello@mail.wispr.ai", "name": "Wispr Flow", "question": "Product emails for a tool you use." },
-      { "address": "seanfletchr@creators.gumroad.com", "name": "Gumroad creator", "question": "Creator you bought from — release notes." },
-      { "address": "jobalerts-noreply@linkedin.com", "name": "LinkedIn job alerts", "seen_30d": "50+", "question": "Fires every 2 hours. Recommend throttling frequency in LinkedIn settings rather than unsubscribing." },
-      { "address": "jobs-noreply@linkedin.com", "name": "LinkedIn jobs", "question": "Same as above." },
-      { "address": "editors-noreply@linkedin.com", "name": "LinkedIn News", "question": "Editorial newsletter." },
-      { "address": "donotreply@match.indeed.com", "name": "Indeed job matches", "seen_30d": 63, "question": "Throttle in Indeed settings rather than unsubscribe?" },
-      { "address": "support@builtin.com", "name": "Built In job matches", "question": "" },
-      { "address": "westpharma-jobnotification@noreply12.jobs2web.com", "name": "West Pharma talent community", "question": "" },
-      { "address": "design-west-technologies-inc-1-47520@alert.refer.io", "name": "Refer.io alert", "question": "" }
+      { "address": "insights@marketing.alpha-futures.com", "name": "Alpha Futures", "seen_90d": 38, "question": "Trading education marketing. Any live account with them?", "sightings": 2, "last_seen": "2026-09-01" },
+      { "address": "support@mail6.lendingclub.com", "name": "LendingClub", "seen_90d": 26, "question": "Loan solicitations. Confirm no open application before unsubscribing.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "Noreply@bitunix.com", "name": "Bitunix", "seen_90d": 21, "question": "Crypto exchange marketing. Any funded account?", "sightings": 3, "last_seen": "2026-09-01" },
+      { "address": "donotreply@23andme.com", "name": "23andMe", "question": "MIXED stream: research/report notices AND upgrade ads. Unsubscribing kills both.", "sightings": 3, "last_seen": "2026-09-01" },
+      { "address": "biolife.donor.response@email-biolifeplasma.com", "name": "BioLife Plasma", "question": "Ad, but tied to a donation program you may be enrolled in.", "sightings": 0 },
+      { "address": "hello@capitaloneshopping.com", "name": "Capital One Shopping", "question": "Ad, but linked to a Capital One account.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "hello@mail.wispr.ai", "name": "Wispr Flow", "question": "Product emails for a tool you use.", "sightings": 3, "last_seen": "2026-09-01" },
+      { "address": "seanfletchr@creators.gumroad.com", "name": "Gumroad creator", "question": "Creator you bought from — release notes.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "jobalerts-noreply@linkedin.com", "name": "LinkedIn job alerts", "seen_30d": "50+", "question": "Fires every 2 hours. Recommend throttling frequency in LinkedIn settings rather than unsubscribing.", "sightings": 11, "last_seen": "2026-09-01" },
+      { "address": "jobs-noreply@linkedin.com", "name": "LinkedIn jobs", "question": "Same as above.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "editors-noreply@linkedin.com", "name": "LinkedIn News", "question": "Editorial newsletter.", "sightings": 2, "last_seen": "2026-09-01" },
+      { "address": "donotreply@match.indeed.com", "name": "Indeed job matches", "seen_30d": 63, "question": "Throttle in Indeed settings rather than unsubscribe?", "sightings": 8, "last_seen": "2026-09-01" },
+      { "address": "support@builtin.com", "name": "Built In job matches", "question": "", "sightings": 2, "last_seen": "2026-09-01" },
+      { "address": "westpharma-jobnotification@noreply12.jobs2web.com", "name": "West Pharma talent community", "question": "", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "design-west-technologies-inc-1-47520@alert.refer.io", "name": "Refer.io alert", "question": "", "sightings": 0 },
+      { "address": "noreply@h5.hilton.com", "name": "Hilton", "question": "New this run. Distinct from the hgv@travel*.hiltongrandvacations.com addresses already in archive — this is core Hilton hotel marketing, not Hilton Grand Vacations.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "no-reply@mail.anthropic.com", "name": "Anthropic (marketing/updates)", "question": "New this run. Distinct from the protected invoice+statements@mail.anthropic.com. Arrived IMPORTANT-labeled — confirm what this address sends before classifying.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "noreply@runsignup.com", "name": "RunSignUp", "question": "New this run, not yet classified.", "sightings": 1, "last_seen": "2026-09-01" },
+      { "address": "noreply-accounts@google.com", "name": "\"Google\" account notice (unverified)", "question": "SECURITY: not the same address as the protected no-reply@accounts.google.com pattern. Three near-identical messages arrived within 34 minutes on Aug 27 (sizes 78546/78549/78552 bytes) — looks like a possible spoofed/lookalike sender impersonating a Google account-security notice. Left untouched in the inbox; recommend inspecting the raw headers before doing anything else with it.", "sightings": 1, "last_seen": "2026-09-01" }
     ]
   }
 }
