@@ -8,7 +8,7 @@
   "settings": {
     "scan_window_days": 7,
     "categories": ["promotions", "updates"],
-    "dry_run": true,
+    "dry_run": false,
     "max_archive_per_run": 400,
     "promote_after_sightings": 3
   },
