@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+"""
+Compile config/rules.json + config/protected-defaults.json into a SELF-CONTAINED
+Routine prompt.
+
+The scheduled Routine runs in a fresh session with no repo checkout and no push
+access, so it cannot read the config at runtime. Instead the config is compiled
+into the prompt itself, and this script is the compiler.
+
+    config/rules.json   ->   compile   ->   Routine prompt   ->   update_trigger
+
+The repo stays the human-editable source of truth; the prompt is a build artifact.
+Never hand-edit the Routine prompt — edit rules.json and recompile, or the two
+will drift and the Routine will act on a stale roster.
+
+Usage:
+    python3 scripts/compile-routine-prompt.py            # print the prompt
+    python3 scripts/compile-routine-prompt.py -o out.txt # write to a file
+"""
+
+import argparse
+import json
+import pathlib
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+
+def load(name):
+    with open(ROOT / "config" / name) as fh:
+        return json.load(fh)
+
+
+def addresses(bucket):
+    """Sorted, lowercased, de-duplicated addresses from a sender bucket."""
+    return sorted({e["address"].strip().lower() for e in bucket})
+
+
+def build():
+    rules = load("rules.json")
+    guard = load("protected-defaults.json")
+
+    s = rules["senders"]
+    settings = rules["settings"]
+    digest = rules.get("digest", {})
+
+    archive = addresses(s.get("archive", []))
+    protected = addresses(s.get("protected", []))
+    keep = addresses(s.get("keep_in_inbox", []))
+    unsub_ok = addresses(s.get("unsubscribe_approved", []))
+
+    owner = rules["owner"]
+    # The owner's own address is a hard stop: the digest is self-addressed.
+    protected_all = sorted(set(protected) | {owner.lower()})
+
+    overlap = set(archive) & set(protected_all)
+    if overlap:
+        sys.exit(f"ERROR: sender in both archive and protected: {sorted(overlap)}")
+
+    subject_pats = guard["protected_subject_patterns"]
+    sender_pats = [p for p in guard["protected_sender_patterns"] if p != "$OWNER"]
+
+    dry = str(settings.get("dry_run", True)).lower()
+    window = settings.get("scan_window_days", 7)
+    cats = settings.get("categories", ["promotions", "updates"])
+    cap = settings.get("max_archive_per_run", 400)
+    to = ", ".join(digest.get("to", [owner]))
+    prefix = digest.get("subject_prefix", "[Inbox Sweep]")
+
+    cat_queries = "\n".join(
+        f"    category:{c} in:inbox newer_than:{window}d" for c in cats
+    )
+
+    def block(items, indent="    "):
+        return "\n".join(f"{indent}{i}" for i in items) if items else f"{indent}(none)"
+
+    return f"""Run the weekly inbox sweep for {owner}.
+
+This prompt is SELF-CONTAINED. There is no repo to clone and no state to write —
+everything you need is below, and the digest email you send at the end IS the
+record of this run. Do not look for a checkout, do not clone anything, do not
+try to commit or push.
+
+=== STEP 1: SCAN ===
+
+Search each of these, using mcp__Gmail__search_threads with
+view "THREAD_VIEW_METADATA_ONLY" and pageSize 50:
+
+{cat_queries}
+
+Metadata view is far cheaper than minimal view and gives you sender, date and
+labels, which is all the grouping needs.
+
+COUNTING: resultCountEstimate is ONLY meaningful when the whole result set fits
+the page you requested. With a small pageSize it returns a placeholder (often
+201) that is not a count. Page while nextPageToken is present and count the
+threads you actually receive. Stop at {cap} threads.
+
+=== STEP 2: CLASSIFY ===
+
+Group threads by sender address, LOWERCASED (senders vary their capitalisation).
+
+ARCHIVE THESE SENDERS ({len(archive)}):
+{block(archive)}
+
+NEVER TOUCH THESE SENDERS ({len(protected_all)}) — they carry receipts, security
+notices, account status, job applications, or are real people:
+{block(protected_all)}
+
+LEAVE THESE IN THE INBOX ({len(keep)}) — marketing the owner wants to see:
+{block(keep)}
+
+Any sender not in one of those three lists is NEW. Do not archive it. Collect it
+for the digest so the owner can classify it.
+
+=== STEP 3: HARD STOPS ===
+
+These override everything above. A thread that trips any of them is NOT archived,
+even if its sender is on the archive list. Report each one under "held back" with
+the rule that fired — a sender that trips a stop repeatedly is misclassified and
+the owner needs to see it.
+
+1. Only the categories searched above are ever in scope. NEVER category:primary.
+2. Never a thread containing a STARRED message.
+3. Never a thread the owner has replied to (any message in SENT).
+4. Never a thread from the owner's own address, {owner} — that includes these
+   digests.
+5. Never a sender matching one of these patterns:
+{block(sender_pats, "       ")}
+6. Never a message whose subject contains any of these (case-insensitive):
+{block(subject_pats, "       ")}
+
+=== STEP 4: ARCHIVE ===
+
+DRY RUN IS CURRENTLY: {dry}
+
+If dry run is true: compute the whole plan, archive NOTHING, call no mutating
+tool except sending the digest, and say plainly in the digest that it was a dry
+run.
+
+If dry run is false: archive each qualifying thread with
+mcp__Gmail__unlabel_thread(threadId, labelIds: ["INBOX"]).
+
+NEVER trash, NEVER delete, NEVER mark spam. Removing the INBOX label is the only
+removal permitted — it is reversible and those are not.
+
+=== STEP 5: UNSUBSCRIBES ===
+
+Approved for unsubscribe ({len(unsub_ok)}):
+{block(unsub_ok)}
+
+If that list is empty, unsubscribe from NOTHING and say so. Never unsubscribe
+from a sender merely because it is on the archive list — archiving is reversible
+and unsubscribing is not, so approval for one is not approval for the other.
+
+=== STEP 6: EMAIL THE DIGEST ===
+
+This is the only output of the run. Nobody is watching a terminal on a Monday
+morning, and nothing is written to disk.
+
+Send with mcp__Gmail__send_message to: {to}
+Provide BOTH htmlBody and a real plain-text body — the plain text is the fallback
+for clients that do not render HTML, so write it as a genuine summary, not a stub.
+
+SUBJECT: lead with the outcome so the inbox list alone is enough on a quiet week:
+    {prefix} Sep 8 — 71 archived, 3 new senders
+    {prefix} Sep 8 — dry run, 71 would be archived
+    {prefix} Sep 8 — nothing to do
+
+BODY, in this order, because it is read on a phone:
+  1. One line: what happened.
+  2. HELD BACK — sender, count, and which rule fired. The most important section.
+  3. NEW SENDERS — address, count, and a one-line guess at what they are. State
+     plainly that nothing was archived from them and the owner must classify them.
+  4. Per-sender table of what was archived.
+  5. Unsubscribe queue status.
+  6. Footer: window swept, dry-run status.
+
+Use inline styles only — email clients strip style blocks and many strip class
+attributes. Do not rely on a dark-mode media query. Keep tables under six columns
+so they do not overflow on a phone. Write URLs as plain text, no markdown link
+syntax; Gmail mangles bare links in the plain-text part.
+
+If the send fails, report it in the terminal summary rather than retrying blindly.
+
+=== HOW THE OWNER CHANGES THIS ===
+
+Sender lists live in config/rules.json in carlosgarciaa18/AboutMe and are compiled
+into this prompt by scripts/compile-routine-prompt.py. If the owner asks you to add
+or remove a sender, tell them to edit rules.json and re-run /inbox-sync — do not
+silently edit this prompt, or the repo and the Routine will drift apart.
+
+Never add a sender to the archive list on your own. Report and ask.
+"""
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-o", "--out")
+    args = ap.parse_args()
+    text = build()
+    if args.out:
+        pathlib.Path(args.out).write_text(text)
+        print(f"wrote {args.out} ({len(text)} chars)", file=sys.stderr)
+    else:
+        print(text)
+
+
+if __name__ == "__main__":
+    main()

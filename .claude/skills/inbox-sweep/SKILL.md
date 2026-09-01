@@ -8,6 +8,12 @@ description: Run one pass of the Gmail advertising sweep — group recent Promot
 One pass of the recurring mail triage. Reads `config/rules.json`, archives only what the
 owner has already approved, and leaves everything else alone.
 
+**This is the interactive path** — run in a session that has the repo checked out. The
+scheduled Routine does NOT use this file: it runs with no checkout, from a self-contained
+prompt compiled out of the same config by `scripts/compile-routine-prompt.py`. Keep the
+two in step. If you change the procedure here, mirror it in the compiler, then run
+`/inbox-sync`.
+
 ## Before anything else
 
 1. Read `config/protected-defaults.json`. Its `hard_stops` are absolute — user config
@@ -104,9 +110,12 @@ Write a human report to `reports/YYYY-MM-DD.md` containing: total scanned, total
 a per-sender table, anything held back and why, new senders awaiting a decision, and any
 sender in `unsubscribe_approved` that has not yet been processed.
 
-Commit both files (`config/rules.json` too, if `pending_review` changed) so the state
-survives the container. This repo is the system's only durable memory — an uncommitted
-run effectively did not happen.
+Commit both files (`config/rules.json` too, if `pending_review` changed).
+
+Interactive runs can commit; the scheduled Routine cannot — the fired session has no push
+access, and the git proxy rejects it with a 403. For scheduled runs the **digest email is
+the record**: it stays in the mailbox and is searchable. Do not treat a failed push as a
+failed run.
 
 ## Step 6 — Email the digest
 

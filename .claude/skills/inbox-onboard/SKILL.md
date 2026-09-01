@@ -109,7 +109,9 @@ keeps the sweep from ever archiving its own reports.
 **Leave `dry_run: true`.** The first scheduled run should report, not act. Say this
 explicitly so they know the first report will change nothing.
 
-Commit the file. This repo is the system's only durable memory across sessions.
+Commit the file, then run `/inbox-sync` to compile it into the Routine's prompt. The
+scheduled Routine has no checkout and cannot read `rules.json` at run time, so a config
+change that is not synced never reaches the Routine.
 
 ## Step 6 — Dry run
 

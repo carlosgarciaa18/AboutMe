@@ -1,0 +1,8 @@
+# Personal, machine-local overrides. Never commit — these can relax permission
+# prompts, and a checked-in copy would silently apply to everyone who installs
+# this repo.
+.claude/settings.local.json
+
+# Scratch
+*.pyc
+__pycache__/

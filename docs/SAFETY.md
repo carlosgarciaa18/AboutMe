@@ -8,7 +8,9 @@ a mistake will eventually happen and tries to make every mistake cheap and rever
 Every action passes through, in order:
 
 1. **Hard stops** (`config/protected-defaults.json`) — ship with the system, apply to
-   every install, cannot be overridden by user config.
+   every install, cannot be overridden by user config. They are compiled verbatim into the
+   Routine prompt, so the unattended path enforces exactly the same rules as the
+   interactive one.
 2. **User rules** (`config/rules.json`) — the owner's own sender roster. Only senders
    explicitly placed in `archive` are ever archived.
 3. **Tool permissions** (`.claude/settings.json`) — destructive Gmail tools are denied
@@ -82,13 +84,20 @@ them rather than deciding, and `unsubscribed` entries keep a note of what was tr
 **A sender ignores the unsubscribe.** Common. The sweep keeps archiving them, and a
 follow-up run flags anyone still sending 30 days later.
 
-**The container is reclaimed mid-run.** State lives in git. A run that did not commit did
-not happen, and the next run recomputes from the mailbox — the sweep is idempotent, since
-archiving an already-archived thread is a no-op.
+**The container is reclaimed mid-run.** Nothing is lost that matters. The sweep is
+idempotent — archiving an already-archived thread is a no-op — so the next run simply
+recomputes from the mailbox. Scheduled runs keep no state at all; the digest email is the
+record.
+
+**The config and the Routine drift apart.** The most likely real-world failure. The
+Routine acts on the roster compiled into its prompt, not on `config/rules.json`. Edit the
+config without running `/inbox-sync` and it keeps using the old list — including archiving
+a sender you just moved to `protected`. After any config change, run `/inbox-sync`.
 
 ## Recovering from a bad run
 
-1. `reports/YYYY-MM-DD.md` lists exactly what was archived, by sender.
+1. The digest email for that run lists exactly what was archived, by sender. Search
+   `subject:"[Inbox Sweep]"`. Interactive runs also leave `reports/YYYY-MM-DD.md`.
 2. Search `in:archive from:<sender> newer_than:Nd` in Gmail.
 3. Select all, "Move to Inbox".
 4. Move the sender from `archive` to `protected` or `keep_in_inbox` in `config/rules.json`
