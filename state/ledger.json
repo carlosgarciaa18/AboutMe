@@ -47,8 +47,8 @@
         "noreply-accounts@google.com"
       ],
       "notes": "noreply-accounts@google.com flagged as a possible spoofed/lookalike sender impersonating a Google account-security notice; left untouched pending owner review.",
-      "digest_sent": null,
-      "commit": null
+      "digest_sent": true,
+      "commit": "432040c70fe12fa06ea079d14d17961b14b6ea6f"
     }
   ]
 }
