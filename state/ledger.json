@@ -45,8 +45,8 @@
         "no-reply@mail.anthropic.com",
         "noreply@runsignup.com"
       ],
-      "digest_sent": null,
-      "commit": null,
+      "digest_sent": true,
+      "commit": "ff4e7e323deb76ba1b2f42ecd3ab34193db27c14",
       "branch": "claude/gifted-dirac-o3idxh",
       "note": "Verification run fired manually. Task prompt named working branch claude/gmail-ad-archival-unsubscribe-y4utn6, but this session's assigned git branch is claude/gifted-dirac-o3idxh; committed there per the never-push-elsewhere rule."
     }
