@@ -31,14 +31,14 @@ It takes about ten minutes and asks before touching anything.
 
 ### One manual step
 
-The scheduled Routine can only use connectors that are stored **on the Routine itself**,
-and those cannot always be attached from a Claude Code session. After onboarding creates
-the Routine, open it in the **Routines UI on claude.ai**, attach the **Gmail** connector,
-and enable it.
+The scheduled Routine can only use connectors stored **on the Routine itself**, and those
+cannot always be attached from a Claude Code session. After onboarding creates the
+Routine, open it in the **Routines UI on claude.ai**, attach the **Gmail** connector, and
+enable it.
 
-Until you do, the Routine will fire with no Gmail tools and fail. Onboarding therefore
-leaves it disabled and tells you so. `/inbox-sweep` works on demand regardless — this
-only affects the unattended schedule. Details in [docs/ROUTINE.md](docs/ROUTINE.md).
+Until you do, the Routine fires with no Gmail tools and fails. Onboarding therefore leaves
+it disabled and tells you so. `/inbox-sweep` works on demand regardless — this only
+affects the unattended schedule. Details in [docs/ROUTINE.md](docs/ROUTINE.md).
 
 ## Commands
 
@@ -47,6 +47,7 @@ only affects the unattended schedule. Details in [docs/ROUTINE.md](docs/ROUTINE.
 | `/inbox-onboard` | First-run setup. Also used to reconfigure. |
 | `/inbox-sweep` | Run one pass now. This is what the Routine invokes. |
 | `/inbox-unsubscribe` | Process approved unsubscribes. Always confirms first. |
+| `/inbox-sync` | Recompile the config into the Routine prompt. Run after editing senders. |
 
 ## How it is laid out
 
@@ -64,9 +65,26 @@ docs/
   ROUTINE.md                Creating, scheduling and managing the Routine.
 ```
 
-Your config and history live in the repo because the sessions that run the sweep are
-ephemeral — the repo is the system's only durable memory. The sweep commits after every
-run.
+## How the Routine gets your config
+
+The scheduled Routine runs in a fresh session with **no repo checkout and no push
+access**. It cannot read `config/rules.json` at run time, so the config is *compiled into
+its prompt*:
+
+```
+config/rules.json  --compile-->  Routine prompt  --update_trigger-->  live
+```
+
+You edit the repo; `/inbox-sync` publishes. The repo is the source of truth for humans,
+the prompt is a build artifact for the robot. **Edit `rules.json`, then run `/inbox-sync`**
+— otherwise the Routine keeps acting on a stale roster.
+
+This is why the Routine has no git dependency at all, and therefore no clone step and no
+failure mode around checkouts or credentials. The emailed digest is the durable record of
+each run: it lives in your mailbox and is searchable.
+
+Interactive `/inbox-sweep` runs, which *do* have the repo, still write `reports/` and
+`state/ledger.json` and commit them.
 
 ## The weekly digest
 

@@ -21,8 +21,15 @@ Trash and spam tools are in the `deny` list in `.claude/settings.json`; leave th
 **Unsubscribing needs named approval.** A sender being in `archive` is not approval to
 unsubscribe from it. Only `senders.unsubscribe_approved` counts.
 
-**Commit state.** Sessions are ephemeral and the repo is the system's only durable memory.
-A run that did not commit its ledger and report did not happen.
+**Keep the config and the Routine in step.** The scheduled Routine has no checkout — its
+sender lists are compiled into its prompt by `scripts/compile-routine-prompt.py`. After
+editing `config/rules.json`, run `/inbox-sync` to republish, or the Routine keeps acting
+on a stale roster. Never hand-edit the Routine prompt.
+
+**The Routine cannot push.** The git proxy rejects it (403, repo not in the fired
+session's authorized set), which is why the runtime path uses no git at all. For scheduled
+runs the digest email is the record. Interactive runs, which do have the repo, still write
+`reports/` and `state/ledger.json`.
 
 ## Gmail tool notes, learned the hard way
 

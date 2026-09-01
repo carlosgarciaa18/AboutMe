@@ -10,6 +10,7 @@
       "Read",
       "Glob",
       "Grep",
+      "Bash(python3 scripts/compile-routine-prompt.py:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -33,6 +34,20 @@
       "mcp__Gmail__mark_thread_spam",
       "mcp__Gmail__forward",
       "mcp__Gmail__delete_label"
+    ]
+  },
+
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Archiving Gmail threads with mcp__Gmail__unlabel_thread by removing only the INBOX label. This is reversible — the mail stays in All Mail and can be restored by re-adding the label — and it is this project's core operation, run dozens of times per sweep. Do not prompt per thread.",
+      "Sending the inbox-sweep digest with mcp__Gmail__send_message to the account owner's own address. This is a self-addressed run report, not correspondence with a third party.",
+      "Reading Gmail via mcp__Gmail__search_threads, get_message, get_thread and list_labels. Read-only."
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Unsubscribing from any sender not listed in senders.unsubscribe_approved in config/rules.json. Unsubscribing is one-way and needs explicit per-sender human approval.",
+      "Adding a sender to senders.archive in config/rules.json without the owner asking for it by name."
     ]
   }
 }
