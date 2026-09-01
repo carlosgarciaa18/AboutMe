@@ -128,7 +128,18 @@ Create it with `create_trigger`:
 - `notifications: { "push": true }`
 - prompt: standalone, since a fresh session has no context. See `docs/ROUTINE.md`.
 
-Confirm what you created and tell them how to pause or delete it.
+**Then check the connector warning.** `create_trigger` may return a Routine that stores no
+connectors, with a warning rather than an error — or reject the `connectors` parameter
+outright depending on the organisation. A Routine in that state fires on schedule, has no
+Gmail tools, and fails.
+
+If that happens, **disable the Routine immediately** with
+`update_trigger(enabled: false)` and tell them plainly: the Routine exists but is paused,
+and they need to attach the Gmail connector in the Routines UI on claude.ai and enable it
+there. Do not leave a broken Routine armed — a weekly failing push notification is worse
+than no Routine.
+
+Confirm what you created, whether it is enabled, and how to pause or delete it.
 
 ## Step 8 — Hand off
 

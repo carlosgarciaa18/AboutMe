@@ -28,6 +28,17 @@ what it *would* do, and offers to create the weekly Routine.
 
 It takes about ten minutes and asks before touching anything.
 
+### One manual step
+
+The scheduled Routine can only use connectors that are stored **on the Routine itself**,
+and those cannot always be attached from a Claude Code session. After onboarding creates
+the Routine, open it in the **Routines UI on claude.ai**, attach the **Gmail** connector,
+and enable it.
+
+Until you do, the Routine will fire with no Gmail tools and fail. Onboarding therefore
+leaves it disabled and tells you so. `/inbox-sweep` works on demand regardless — this
+only affects the unattended schedule. Details in [docs/ROUTINE.md](docs/ROUTINE.md).
+
 ## Commands
 
 | Command | What it does |

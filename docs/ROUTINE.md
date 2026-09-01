@@ -63,6 +63,31 @@ a decision.
 If config/rules.json is missing, stop and say so rather than guessing.
 ```
 
+## The Gmail connector has to be attached in the UI
+
+**This is the one manual step, and the Routine does not work without it.**
+
+A fired session only has the connectors stored on the Routine. `create_trigger` will
+happily create a Routine with none, and it returns a warning rather than an error:
+
+> this trigger stores no MCP connectors, so the sessions it fires will run without
+> connector (`mcp__<server>__*`) tools
+
+A Routine in that state fires on schedule, finds no Gmail tools, and fails — so a Routine
+created from a Claude Code session should be left **disabled** until the connector is
+attached.
+
+Depending on the organisation, the `connectors` parameter may also be rejected outright:
+
+> create_trigger: the connectors parameter is not available for this organization
+
+To fix it, attach Gmail from the **Routines UI on claude.ai**: open the Routine, add the
+Gmail connector, then enable it. After that it runs unattended.
+
+To confirm a Routine is actually armed, check `list_triggers` for `enabled: true` and
+verify the connector is listed in the UI. `next_run_at` is populated even on a disabled
+Routine, so it is not evidence that the Routine will fire.
+
 ## Managing it
 
 - `list_triggers` — find the trigger ID
