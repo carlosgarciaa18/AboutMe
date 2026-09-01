@@ -54,8 +54,11 @@
     "no-reply@accounts.*",
     "*@*cigna.com",
     "*@*kaiserpermanente.org",
-    "*@*mychart*"
+    "*@*mychart*",
+    "$OWNER"
   ],
+
+  "$owner_pattern_note": "$OWNER expands to the address in rules.json `owner`. The sweep emails its own run digest from the owner's account to the owner, so without this the system would eventually archive its own reports. Self-addressed mail is also how most people send themselves notes.",
 
   "hard_stops": [
     "Never archive or unsubscribe anything outside category:promotions, category:updates or category:forums.",
@@ -63,6 +66,7 @@
     "Never touch a thread the account owner has replied to (a thread with any message in SENT).",
     "Never touch a thread whose sender matches protected_sender_patterns.",
     "Never touch a message whose subject matches protected_subject_patterns.",
+    "Never archive mail sent from the owner's own address, including this system's run digests.",
     "Never unsubscribe without an explicit, per-sender human approval recorded in config/rules.json.",
     "Never delete or trash anything. Archiving (removing the INBOX label) is the only removal action permitted.",
     "Never mark anything as spam."

@@ -10,8 +10,15 @@
     "categories": ["promotions", "updates"],
     "dry_run": true,
     "max_archive_per_run": 400,
-    "promote_after_sightings": 3,
-    "report_to": "terminal"
+    "promote_after_sightings": 3
+  },
+
+  "digest": {
+    "enabled": true,
+    "to": ["you@example.com"],
+    "subject_prefix": "[Inbox Sweep]",
+    "send_when": "always",
+    "include_sender_table": true
   },
 
   "senders": {

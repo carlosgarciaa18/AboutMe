@@ -3,8 +3,9 @@
 A Claude Routine that keeps advertising out of your Gmail inbox.
 
 Once a week it groups your Promotions and Updates mail by sender, archives the senders
-you have approved, surfaces new ones for a decision, and writes you a report. It archives —
-it never deletes. It unsubscribes only from senders you have named, one by one.
+you have approved, surfaces new ones for a decision, and **emails you a round-up of what
+it did**. It archives — it never deletes. It unsubscribes only from senders you have
+named, one by one.
 
 ## Install
 
@@ -66,6 +67,37 @@ docs/
 Your config and history live in the repo because the sessions that run the sweep are
 ephemeral — the repo is the system's only durable memory. The sweep commits after every
 run.
+
+## The weekly digest
+
+Every run emails a round-up to the addresses in `digest.to` (your own, by default). The
+subject carries the outcome, so the inbox list alone tells you what happened:
+
+```
+[Inbox Sweep] Sep 8 — 71 archived, 3 new senders
+[Inbox Sweep] Sep 8 — dry run, 71 would be archived
+[Inbox Sweep] Sep 8 — nothing to do
+```
+
+The body leads with a one-line summary, then anything **held back** and which rule fired,
+then **new senders** awaiting your decision, then the per-sender table and the unsubscribe
+queue.
+
+The held-back section is the one worth reading. A sender showing up there week after week
+is misclassified — usually an advertiser that also sends receipts, and it belongs in
+`protected` instead.
+
+Configure it under `digest` in `config/rules.json`:
+
+| Key | Meaning |
+|---|---|
+| `enabled` | Set `false` to fall back to push notifications only |
+| `to` | Recipients. Defaults to you |
+| `send_when` | `always`, or `changes_only` to skip quiet weeks |
+| `include_sender_table` | Per-sender breakdown in the body |
+
+The digest is sent from your account to yourself, and a hard stop keeps the sweep from
+ever archiving its own reports.
 
 ## Sender buckets
 

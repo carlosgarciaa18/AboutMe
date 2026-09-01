@@ -17,6 +17,26 @@ Every action passes through, in order:
 A sender must clear all three. Adding a sender to `archive` is not enough if a hard stop
 catches the thread.
 
+## Why `send_message` is allowed rather than prompted
+
+The Routine runs unattended, so a tool that prompts would hang the run. `send_message` is
+therefore in the `allow` list — it has to be, for the digest to send at 8am on a Monday
+with nobody watching.
+
+That same tool is what `/inbox-unsubscribe` uses for `mailto:` opt-outs, and the
+permission layer cannot tell the two uses apart. So **the permission layer is not the
+control for unsubscribing** — the `unsubscribe_approved` list is. A sender is only ever
+unsubscribed if a human put its address on that list by name.
+
+This is a deliberate trade: an unattended digest in exchange for moving the unsubscribe
+gate up into the skill. If you would rather have the prompt, move `mcp__Gmail__send_message`
+to `ask` in `.claude/settings.json` and set `digest.enabled` to `false` — you will get
+push notifications from the Routine instead.
+
+Two narrower limits keep the blast radius small either way: the sweep may only send to the
+addresses in `digest.to`, and `forward` and `reply` are denied and prompted respectively,
+so the system cannot send mail to a third party or answer correspondence.
+
 ## Archive, never delete
 
 The only removal action is removing the `INBOX` label. Mail stays in All Mail, stays

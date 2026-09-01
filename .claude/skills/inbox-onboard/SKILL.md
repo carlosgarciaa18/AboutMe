@@ -98,6 +98,14 @@ is the intended path — the roster is meant to fill in over weeks, not in one s
 Copy `config/rules.example.json` to `config/rules.json` and fill in their decisions.
 Set `owner` to their address and `timezone` to theirs — ask if you cannot infer it.
 
+Set up the **digest** while you are here. Ask where the weekly round-up should go, and
+default to their own address. Ask whether they want one every week (`send_when: "always"`)
+or only when something actually happened (`"changes_only"`). Default to `"always"` — a
+silent week is otherwise indistinguishable from a broken Routine.
+
+Mention that the digest is sent from their own account to themselves, and that a hard stop
+keeps the sweep from ever archiving its own reports.
+
 **Leave `dry_run: true`.** The first scheduled run should report, not act. Say this
 explicitly so they know the first report will change nothing.
 

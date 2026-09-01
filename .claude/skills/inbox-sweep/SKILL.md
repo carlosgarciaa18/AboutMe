@@ -94,7 +94,9 @@ Append a run record to `state/ledger.json`:
   "archived": 71,
   "held_back": [{"sender": "...", "reason": "starred"}],
   "by_sender": {"info@mail.levi.com": 6},
-  "new_senders": ["..."]
+  "new_senders": ["..."],
+  "digest_sent": true,
+  "commit": "f4a52c1"
 }
 ```
 
@@ -106,14 +108,60 @@ Commit both files (`config/rules.json` too, if `pending_review` changed) so the 
 survives the container. This repo is the system's only durable memory — an uncommitted
 run effectively did not happen.
 
-## Step 6 — Report to the owner
+## Step 6 — Email the digest
 
-Lead with what changed. Keep it short:
+If `digest.enabled` is true, email the round-up. This is the primary output of a scheduled
+run — nobody is watching the terminal when the Routine fires at 8am on a Monday.
+
+Skip it only when `digest.send_when` is `"changes_only"` **and** nothing was archived and
+no new senders appeared. A dry run always sends, since the whole point is to show the plan.
+
+Send with `mcp__Gmail__send_message` to `digest.to`, providing **both** `htmlBody` and
+`body`. The plain-text `body` is the fallback for clients that do not render HTML — write
+it as a real summary, not a "please enable HTML" stub.
+
+**Subject** — put the outcome in the subject, so the inbox list alone is enough on a quiet
+week:
+
+```
+[Inbox Sweep] Sep 8 — 71 archived, 3 new senders
+[Inbox Sweep] Sep 8 — dry run, 71 would be archived
+[Inbox Sweep] Sep 8 — nothing to do
+[Inbox Sweep] Sep 8 — FAILED: config/rules.json missing
+```
+
+**Body** — in this order, because it is read on a phone:
+
+1. One line: what happened. `Archived 71 threads from 12 senders.`
+2. **Held back**, if any — sender, count, and which rule fired. This is the most
+   important section: a repeated hold-back means a sender is misclassified.
+3. **New senders** awaiting a decision, with counts and how many sightings so far.
+   Say plainly that nothing was archived from them.
+4. **Per-sender table**, if `digest.include_sender_table` is true.
+5. **Unsubscribe queue** — anyone in `unsubscribe_approved` not yet processed, and any
+   sender in `unsubscribed` still arriving 30+ days later.
+6. A footer line: the window swept, whether it was a dry run, and the commit SHA.
+
+Use inline styles only. Email clients strip `<style>` blocks, and many strip `class`
+attributes. Do not rely on a dark-mode media query; pick colours that read on both, or
+leave the background unset and set only text colour. Keep the table under six columns so
+it does not overflow on a phone.
+
+Lead the HTML with the same one-line summary as the subject — many clients show the first
+line as the preview text.
+
+**If sending fails**, do not fail the run. The archive work is already done and committed.
+Report the send failure in the terminal summary and leave the report file in `reports/`.
+
+## Step 7 — Report to the terminal
+
+Whether or not the digest sent, print the same summary for anyone watching:
 
 ```
 Swept 96 threads from 14 senders. Archived 71. Nothing unsubscribed.
 Held back: 1 World Market (starred).
 New senders (3 sightings, awaiting your call): patagonia@..., rei@...
+Digest emailed to carlosgarciaa97@gmail.com.
 ```
 
 If `dry_run` was on, say so in the first line and give the plan instead.
@@ -124,3 +172,5 @@ If `dry_run` was on, say so in the first line and give the plan instead.
 - Never touches `category:primary`.
 - Never adds a sender to `archive` on its own.
 - Never deletes mail.
+- Never emails anyone but the addresses in `digest.to`. The digest is a self-addressed
+  report, not correspondence — it is never sent to a sender, and never replies to mail.
