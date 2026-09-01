@@ -1,5 +1,54 @@
 {
   "$comment": "Append-only run history. The sweep adds one record per run. This is the system's durable memory across ephemeral sessions.",
   "version": 1,
-  "runs": []
+  "runs": [
+    {
+      "run": "2026-09-01T16:44:01Z",
+      "dry_run": true,
+      "window_days": 7,
+      "scanned": 111,
+      "archived": 0,
+      "would_archive": 37,
+      "held_back": [{"sender": "worldmarket@emailworldmarket.com", "reason": "starred"}],
+      "by_sender": {
+        "marketing@angelikafilmcenter.com": 3,
+        "marketing@engage.canva.com": 3,
+        "mail@eg.vrbo.com": 2,
+        "armstrong@send.armstronggarden.com": 2,
+        "logitech@messaging.logitech.com": 2,
+        "hello@em.cava.com": 2,
+        "info@audiotent.com": 2,
+        "store-news@amazon.com": 2,
+        "worldmarket@emailworldmarket.com": 2,
+        "st@event.st.com": 1,
+        "applefitnessplus@insideapple.apple.com": 1,
+        "noreply@engage.covetruspharmacy.com": 1,
+        "news@e.sunglasshut.com": 1,
+        "hello@mail.quince.com": 1,
+        "email@sonarworks.com": 1,
+        "circulation@email.langnews.com": 1,
+        "sales@elecrow.com": 1,
+        "snapdragonstadium@engage.ticketmaster.com": 1,
+        "talentattraction@edwards.com": 1,
+        "no-reply@spotify.com": 1,
+        "scm_mm@mit.edu": 1,
+        "volkswagen@em.vw.com": 1,
+        "info@sandiegofc.com": 1,
+        "info@info.cdso.utexas.edu": 1,
+        "newsletter@hackaday.com": 1,
+        "no-reply@aiaiai.audio": 1
+      },
+      "new_senders": [
+        "noreply@h5.hilton.com",
+        "mail@update.strava.com",
+        "noreply-accounts@google.com",
+        "no-reply@mail.anthropic.com",
+        "noreply@runsignup.com"
+      ],
+      "digest_sent": null,
+      "commit": null,
+      "branch": "claude/gifted-dirac-o3idxh",
+      "note": "Verification run fired manually. Task prompt named working branch claude/gmail-ad-archival-unsubscribe-y4utn6, but this session's assigned git branch is claude/gifted-dirac-o3idxh; committed there per the never-push-elsewhere rule."
+    }
+  ]
 }
