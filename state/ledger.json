@@ -1,5 +1,54 @@
 {
   "$comment": "Append-only run history. The sweep adds one record per run. This is the system's durable memory across ephemeral sessions.",
   "version": 1,
-  "runs": []
+  "runs": [
+    {
+      "run": "2026-09-01T16:40:00Z",
+      "dry_run": true,
+      "window_days": 7,
+      "scanned": 110,
+      "archived": 0,
+      "would_archive": 37,
+      "held_back": [
+        { "sender": "worldmarket@emailworldmarket.com", "reason": "starred" }
+      ],
+      "by_sender": {
+        "marketing@angelikafilmcenter.com": 3,
+        "marketing@engage.canva.com": 3,
+        "worldmarket@emailworldmarket.com": 2,
+        "store-news@amazon.com": 2,
+        "mail@eg.vrbo.com": 2,
+        "logitech@messaging.logitech.com": 2,
+        "hello@em.cava.com": 2,
+        "info@audiotent.com": 2,
+        "armstrong@send.armstronggarden.com": 2,
+        "news@e.sunglasshut.com": 1,
+        "hello@mail.quince.com": 1,
+        "circulation@email.langnews.com": 1,
+        "noreply@engage.covetruspharmacy.com": 1,
+        "sales@elecrow.com": 1,
+        "volkswagen@em.vw.com": 1,
+        "Snapdragonstadium@engage.ticketmaster.com": 1,
+        "no-reply@spotify.com": 1,
+        "info@sandiegofc.com": 1,
+        "email@sonarworks.com": 1,
+        "no-reply@aiaiai.audio": 1,
+        "st@event.st.com": 1,
+        "newsletter@hackaday.com": 1,
+        "talentattraction@edwards.com": 1,
+        "info@info.cdso.utexas.edu": 1,
+        "scm_mm@mit.edu": 1,
+        "applefitnessplus@insideapple.apple.com": 1
+      },
+      "new_senders": [
+        "noreply@h5.hilton.com",
+        "no-reply@mail.anthropic.com",
+        "noreply@runsignup.com",
+        "noreply-accounts@google.com"
+      ],
+      "notes": "noreply-accounts@google.com flagged as a possible spoofed/lookalike sender impersonating a Google account-security notice; left untouched pending owner review.",
+      "digest_sent": null,
+      "commit": null
+    }
+  ]
 }
